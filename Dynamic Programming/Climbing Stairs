@@ -1,0 +1,28 @@
+/**
+    Issue Link - https://leetcode.com/problems/climbing-stairs/
+*/
+
+
+
+class Solution {
+    public int climbStairs(int n) {
+        return totalWays(0, n, new HashMap<Integer, Integer>());
+    }
+    
+    private int totalWays(int currStair, int targetStair, HashMap<Integer, Integer> memo){
+        if(currStair == targetStair)
+            return 1;
+        if(currStair > targetStair)
+            return 0;
+        
+        int currKey = currStair;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int oneJ = totalWays(currStair+1, targetStair, memo);
+        int twoJ = totalWays(currStair+2, targetStair, memo);
+        
+        memo.put(currKey, (oneJ+twoJ));
+        return memo.get(currKey);
+    }
+}
