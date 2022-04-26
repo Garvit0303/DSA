@@ -1,0 +1,27 @@
+/**
+    Issue Link - https://leetcode.com/problems/n-th-tribonacci-number/
+*/
+
+class Solution {
+    public int tribonacci(int n) {
+       return nthTribo(n, new HashMap<Integer, Integer>()); 
+    }
+    private int nthTribo(int n, HashMap<Integer, Integer> memo){
+        if(n == 0)
+            return 0;
+        if(n == 1 || n == 2)
+            return 1;
+        
+        int currKey = n;
+        
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int a = nthTribo(n-1, memo);
+        int b = nthTribo(n-2, memo);
+        int c = nthTribo(n-3, memo);
+        
+        memo.put(currKey, (a+b+c));
+        return memo.get(currKey);
+    }
+}
