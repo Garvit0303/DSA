@@ -1,0 +1,24 @@
+/**
+    Issue Link - https://leetcode.com/problems/house-robber/
+*/
+
+class Solution {
+    public int rob(int[] nums) {
+        return maxAmt(nums, 0, nums.length-1, new HashMap<Integer, Integer>());
+    }
+    private int maxAmt(int[] nums, int currHouse, int lastHouse, HashMap<Integer, Integer> memo){
+        if(currHouse > lastHouse)
+            return 0;
+        
+        int currKey = currHouse;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int amtCurrHouse = nums[currHouse];
+        int rob = amtCurrHouse + maxAmt(nums, currHouse+2, lastHouse, memo);
+        int noRob = maxAmt(nums, currHouse+1, lastHouse, memo);
+        
+        memo.put(currKey, Math.max(rob, noRob));
+        return memo.get(currKey);
+    }
+}
