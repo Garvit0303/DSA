@@ -1,0 +1,29 @@
+/**
+    Issue Link - https://leetcode.com/problems/delete-and-earn/
+ */
+
+class Solution {
+    public int deleteAndEarn(int[] nums) {
+        int MAX = 0;
+        for(int val:nums)
+            MAX = Math.max(MAX, val);
+        int[] freq = new int[MAX+1];
+        for(int index:nums)
+            freq[index]++;
+        return maxPoints(freq, 0, new HashMap<Integer,Integer>());
+    }
+    private int maxPoints(int[] freq, int currIndex, HashMap<Integer,Integer> memo){
+        if(currIndex >= freq.length)
+            return 0;
+        
+        int currKey = currIndex;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int consider = currIndex * freq[currIndex] + maxPoints(freq, currIndex+2, memo);
+        int notConsider = maxPoints(freq, currIndex+1, memo);
+        
+        memo.put(currKey, Math.max(consider,notConsider));
+        return memo.get(currKey);
+    }
+}

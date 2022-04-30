@@ -1,0 +1,32 @@
+/**
+    Issue Link - https://practice.geeksforgeeks.org/problems/knapsack-with-duplicate-items4201/1x  
+*/
+
+class Solution{
+    public int knapSack(int N, int W, int val[], int wt[])
+    {
+        int [][]dp = new int[N][W+1];
+        for(int i=0; i<N; i++)
+            for(int j=0; j<W+1; j++)
+                dp[i][j] = -1;
+                
+        return maxProfit(wt, val, 0 , W, N, dp);
+    }
+    private int maxProfit(int []weight, int []value, int currentItem, int capacity, int n, int [][]dp){
+        if(currentItem >= n)
+            return 0;
+            
+        int currentItemWeight = weight[currentItem];
+        int currentItemValue = value[currentItem];
+        int consider = 0;
+        if(dp[currentItem][capacity] != -1)
+            return dp[currentItem][capacity];
+        
+        if(currentItemWeight <= capacity)
+            consider = currentItemValue + maxProfit(weight, value, currentItem , capacity-currentItemWeight , n, dp);
+        int notConsider = maxProfit(weight, value, currentItem+1 , capacity , n, dp);    
+        
+        dp[currentItem][capacity] = Math.max(consider, notConsider);
+        return dp[currentItem][capacity];
+    }
+}

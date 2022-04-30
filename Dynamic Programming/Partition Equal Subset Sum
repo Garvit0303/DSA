@@ -1,0 +1,35 @@
+/**
+    Issue Link - https://leetcode.com/problems/partition-equal-subset-sum/
+*/
+
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for(int val:nums)
+            sum += val;
+        if(sum%2 != 0)
+            return false;
+        return isPossible(0, sum/2, nums, new HashMap<String, Boolean>());
+    }
+    private boolean isPossible(int currentIndex, int target, int[] nums, HashMap<String, Boolean> memo){
+        if(target == 0)
+            return true;
+        if(currentIndex >= nums.length)
+            return false;
+        
+        String currKey = currentIndex + " " + target;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        boolean consider = false;
+        int currentVal = nums[currentIndex];
+        if(currentVal <= target)
+            consider = isPossible(currentIndex+1, target-currentVal, nums, memo);
+        if(consider == true)
+            return true;
+        boolean notConsider = isPossible(currentIndex+1, target, nums, memo);
+        
+        memo.put(currKey, consider||notConsider);
+        return memo.get(currKey);
+    }
+}

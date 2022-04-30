@@ -1,0 +1,25 @@
+/**
+    Issue Link - https://leetcode.com/problems/unique-paths/
+*/
+
+class Solution {
+    public int uniquePaths(int m, int n) {
+        return possibleWays(0, 0, m, n, new HashMap<String, Integer>());
+    }
+    private int possibleWays(int currentRow, int currentCol, int m, int n, HashMap<String, Integer> memo){
+        if(currentRow == m-1 && currentCol == n-1)
+            return 1;
+        if(currentRow >= m || currentCol >= n)
+            return 0;
+        
+        String currKey = currentRow + "-" + currentCol;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int rightWay = possibleWays(currentRow, currentCol+1, m, n, memo);
+        int downWay = possibleWays(currentRow+1, currentCol, m, n, memo);
+        
+        memo.put(currKey, rightWay+downWay);
+        return memo.get(currKey);
+    }
+}

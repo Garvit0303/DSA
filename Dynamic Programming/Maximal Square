@@ -1,0 +1,36 @@
+/**
+    Issue Link - https://leetcode.com/problems/maximal-square/
+*/
+
+class Solution {
+    public int maximalSquare(char[][] matrix) {
+        HashMap<String, Integer> memo = new HashMap<String, Integer>();
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int MAX_AREA = 0;
+        for(int currentRow=0; currentRow<m; currentRow++){
+            for(int currentCol=0; currentCol<n; currentCol++){
+                if(matrix[currentRow][currentCol] == '1'){
+                    int sideLength = minSideLength(matrix, currentRow, currentCol, m, n, memo);
+                    MAX_AREA = Math.max(MAX_AREA, (sideLength * sideLength));
+                }
+            }
+        }
+        return MAX_AREA;
+    }
+    private int minSideLength(char[][] matrix, int currentRow, int currentCol, int m, int n, HashMap<String, Integer> memo){
+        if(currentRow >= m || currentCol >= n || matrix[currentRow][currentCol] == '0')
+            return 0;
+        
+        String currKey = currentRow + "-" + currentCol;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int rightWay = 1 + minSideLength(matrix, currentRow, currentCol+1, m, n, memo);
+        int downWay = 1 + minSideLength(matrix, currentRow+1, currentCol, m, n, memo);
+        int diagWay = 1 + minSideLength(matrix, currentRow+1, currentCol+1, m, n, memo);
+        
+        memo.put(currKey, Math.min(rightWay, Math.min(downWay, diagWay)));
+        return memo.get(currKey);
+    }
+}

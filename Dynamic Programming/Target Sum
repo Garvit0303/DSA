@@ -1,0 +1,28 @@
+/**
+    Issue Link - https://leetcode.com/problems/target-sum/
+*/
+
+class Solution {
+    public int findTargetSumWays(int[] nums, int target) {
+        return possibleExp(nums, 0, target, new HashMap<String, Integer>());
+    }
+    private int possibleExp(int[] nums, int currentIndex, int target, HashMap<String, Integer> memo){
+        if(currentIndex == nums.length)
+        {
+            if(target == 0)
+                return 1;
+            else
+                return 0;
+        }
+
+        String currKey = currentIndex + "-" + target;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int minus = possibleExp(nums, currentIndex+1, target+nums[currentIndex], memo);
+        int plus = possibleExp(nums, currentIndex+1, target-nums[currentIndex], memo);
+        
+        memo.put(currKey, (minus+plus));
+        return memo.get(currKey);
+    }
+}

@@ -1,0 +1,30 @@
+/**
+    Issue Link - https://practice.geeksforgeeks.org/problems/nth-catalan-number0817/1
+*/
+
+class Solution
+{
+    public BigInteger findCatalan(int n)
+    {
+        return nthCatalan(n, new HashMap<Integer, BigInteger>());   
+    }
+    private BigInteger nthCatalan(int n, HashMap<Integer, BigInteger> memo){
+        if(n == 0 || n == 1)
+            return BigInteger.ONE;
+            
+        int currKey = n;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+            
+        BigInteger ans = BigInteger.ZERO;
+        for(int i=0; i<n; i++){
+            BigInteger a = nthCatalan(i, memo);
+            BigInteger b = nthCatalan(n-i-1, memo);
+            BigInteger c = a.multiply(b);
+            ans = ans.add(c);
+        }
+        
+        memo.put(currKey, ans);
+        return memo.get(currKey);
+    }
+}

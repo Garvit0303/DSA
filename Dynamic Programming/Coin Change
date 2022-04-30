@@ -1,0 +1,32 @@
+/**
+    Issue Link - https://leetcode.com/problems/coin-change/
+*/
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int res = minCoins(coins, 0, amount, new HashMap<String, Integer>());
+        if(res == 10001)
+            return -1;
+        return res;
+    }
+    private int minCoins(int[] coins, int currentCoin, int amount, HashMap<String, Integer> memo){
+        if(amount == 0)
+            return 0;
+        if(currentCoin >= coins.length)
+            return 10001;
+        
+        String currKey = currentCoin + "-" + amount;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int currentCoinVal = coins[currentCoin];
+        int consider = 10001;
+        
+        if(currentCoinVal <= amount)
+            consider = 1 + minCoins(coins, currentCoin, amount-currentCoinVal, memo);
+        int notConsider = minCoins(coins, currentCoin+1, amount, memo);
+        
+        memo.put(currKey, Math.min(consider, notConsider));
+        return memo.get(currKey);
+    }
+}

@@ -1,0 +1,32 @@
+/**
+    Issue Link - https://leetcode.com/problems/minimum-falling-path-sum/
+*/
+
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        HashMap<String, Integer> memo = new HashMap<String, Integer>();
+        int res = 100001;
+        for(int i=0; i<matrix[0].length; i++){
+            res = Math.min(res, minimumSum(matrix, 0, i, matrix.length, matrix[0].length, memo));
+        }
+        return res;
+    }
+    private int minimumSum(int[][] matrix, int currentRow, int currentCol, int m, int n, HashMap<String, Integer> memo){
+        if(currentRow < 0 || currentRow >= m || currentCol < 0 || currentCol >= n)
+            return 100001;
+        if(currentRow == m-1)
+            return matrix[currentRow][currentCol];
+        
+        String currKey = currentRow + "-" + currentCol;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int currentCellVal = matrix[currentRow][currentCol];
+        int downWay = currentCellVal + minimumSum(matrix, currentRow+1, currentCol, m, n, memo);
+        int diagWayL = currentCellVal + minimumSum(matrix, currentRow+1, currentCol-1, m, n, memo);
+        int diagWayR = currentCellVal + minimumSum(matrix, currentRow+1, currentCol+1, m, n, memo);
+        
+        memo.put(currKey, Math.min(downWay, Math.min(diagWayL, diagWayR)));
+        return memo.get(currKey);
+    }
+}

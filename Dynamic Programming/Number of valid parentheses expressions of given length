@@ -1,0 +1,29 @@
+/**
+    Issue Link - https://www.geeksforgeeks.org/find-number-valid-parentheses-expressions-given-length/
+*/
+
+class Solution
+{
+    public long findCatalan(int n)
+    {
+        if(n%2 != 0)
+            return 0;
+        return nthCatalan(n, new HashMap<Integer, Long>());   
+    }
+    private long nthCatalan(int n, HashMap<Integer, Long> memo){
+        if(n == 0 || n == 1)
+            return 1;
+            
+        int currKey = n;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+            
+        long ans = 0;
+        for(int i=0; i<n; i++){
+            ans += nthCatalan(i, memo) * nthCatalan(n-i-1, memo);
+        }
+        
+        memo.put(currKey, ans);
+        return memo.get(currKey);
+    }
+}

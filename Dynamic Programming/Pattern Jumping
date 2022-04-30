@@ -1,0 +1,24 @@
+/**
+    Issue Link - https://practice.geeksforgeeks.org/problems/pattern-jumping4855/1
+*/
+
+class Solution {
+    public String canJump(Long N) {
+        return isPossible(N, 1L, new HashMap<Long, String>());
+    }
+    private String isPossible(long targetPoint, long currentPoint, HashMap<Long, String> memo){
+        if(currentPoint == targetPoint)
+            return "True";
+        if(currentPoint > targetPoint)
+            return "False";
+            
+        long currKey = currentPoint;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+            
+        String res = isPossible(targetPoint, currentPoint*2, memo);
+        
+        memo.put(currKey, res);
+        return memo.get(currKey);
+    }
+};

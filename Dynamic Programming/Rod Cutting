@@ -1,0 +1,26 @@
+/**
+    Issue Link - https://practice.geeksforgeeks.org/problems/rod-cutting0840/1
+*/
+
+class Solution{
+    public int cutRod(int price[], int n) {
+        return maxVal(price, 0, n, new HashMap<String, Integer>());
+    }
+    private int maxVal(int price[], int currentPiece, int n, HashMap<String, Integer> memo){
+        if(n == 0 || currentPiece >= price.length)
+            return 0;
+        
+        String currKey = currentPiece + "-" + n;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+            
+        int currentPiecePrice = price[currentPiece];
+        int consider = 0;
+        if(currentPiece+1 <= n)
+            consider = currentPiecePrice + maxVal(price, currentPiece , n-(currentPiece+1), memo);
+        int notConsider = maxVal(price, currentPiece+1 , n, memo);
+        
+        memo.put(currKey, Math.max(consider, notConsider));
+        return memo.get(currKey);
+    }
+}

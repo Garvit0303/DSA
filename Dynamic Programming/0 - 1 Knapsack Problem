@@ -1,0 +1,30 @@
+/**
+    Issue Link - https://practice.geeksforgeeks.org/problems/0-1-knapsack-problem0945/1
+*/
+
+class Solution 
+{ 
+    public int knapSack(int W, int wt[], int val[], int n) 
+    { 
+        return maxValue(wt, val, 0, n, W, new HashMap<String, Integer>());
+    } 
+    private int maxValue(int[] weight, int[] value, int currentItem, int lastItem, int capacity, HashMap<String, Integer> memo){
+        if(currentItem >= lastItem)
+            return 0;
+            
+        String currKey = currentItem + " " + capacity;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+            
+        int currentItemWeight = weight[currentItem];
+        int currentItemValue = value[currentItem];
+        int consider = 0;
+        
+        if(currentItemWeight <= capacity)
+            consider = currentItemValue + maxValue(weight, value, currentItem+1, lastItem, capacity-currentItemWeight, memo);
+        int notConsider = maxValue(weight, value, currentItem+1, lastItem, capacity, memo);
+        
+        memo.put(currKey, Math.max(consider, notConsider));
+        return memo.get(currKey);
+    }
+}

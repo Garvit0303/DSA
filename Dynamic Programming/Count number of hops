@@ -1,0 +1,29 @@
+/**
+    Issue Link - https://practice.geeksforgeeks.org/problems/count-number-of-hops-1587115620/1
+*/ 
+
+class Solution
+{
+    public long countWays(int n)
+    {
+        return totalWays(0, n, new HashMap<Integer, Long>());
+    }
+    private long totalWays(int currStep, int targetStep, HashMap<Integer, Long> memo){
+        if(currStep == targetStep)
+            return 1;
+        if(currStep > targetStep)
+            return 0;
+        
+        int currKey = currStep;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+            
+        long MOD = 1000000007;
+        long oneJ = totalWays(currStep+1, targetStep, memo) % MOD;
+        long twoJ = totalWays(currStep+2, targetStep, memo) % MOD;
+        long threeJ = totalWays(currStep+3, targetStep, memo) % MOD;
+        
+        memo.put(currKey, (oneJ+twoJ+threeJ) % MOD);
+        return memo.get(currKey);
+    }
+}

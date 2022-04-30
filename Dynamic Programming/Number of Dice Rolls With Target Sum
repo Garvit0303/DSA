@@ -1,0 +1,30 @@
+/**
+    Issue Link - https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/
+*/
+
+class Solution {
+    public int numRollsToTarget(int n, int k, int target) {
+        return possibleWays(n, k, target, new HashMap<String, Integer>());   
+    }
+    private int possibleWays(int n, int k, int target, HashMap<String, Integer> memo){
+        if(n == 0 && target == 0)
+            return 1;
+        if(n == 0 || target <= 0)
+            return 0;
+        
+        String currKey= n + "-" + target;
+        if(memo.containsKey(currKey))
+            return memo.get(currKey);
+        
+        int ans = 0; 
+        int MOD = 1000000007;
+        for(int i=1; i<=k; i++){
+            int tempAns = possibleWays(n-1, k, target-i, memo) % MOD;
+            ans %= MOD;
+            ans = (tempAns + ans) % MOD;
+        }
+        
+        memo.put(currKey, ans);
+        return memo.get(currKey);
+    }
+}
