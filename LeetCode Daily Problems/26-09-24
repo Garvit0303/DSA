@@ -1,0 +1,33 @@
+//729. My Calendar I
+
+//Approach 1: Brute Force
+class MyCalendar {
+    private List<int[]> timeline = new ArrayList<>();
+    public MyCalendar() {
+    }
+    
+    public boolean book(int start, int end) {
+        for(int[] t : timeline)
+            if(Math.max(t[0], start) < Math.min(t[1], end))
+            return false;
+            timeline.add(new int[] {start, end});
+            return true;
+    }
+}
+
+//----------------------------------------------------------------------------------------------------
+
+//Approach 2: Ordered Map
+class MyCalendar {
+    private TreeMap<Integer, Integer> timeline = new TreeMap<>();
+    public MyCalendar(){}
+    
+    public boolean book(int start, int end) {
+        Integer prevStart = timeline.lowerKey(end);
+        if(prevStart == null || timeline.get(prevStart) <= start){
+            timeline.put(start, end);
+            return true;
+        }
+        return false;
+    }
+}
