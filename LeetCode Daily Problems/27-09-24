@@ -48,3 +48,23 @@ class MyCalendarTwo {
 }
 
 --------------------------------------------------------------------------------------------------------
+
+class MyCalendarTwo {
+    public boolean book(int start, int end) {
+        timeline.put(start, timeline.getOrDefault(start, 0) + 1);
+        timeline.put(end, timeline.getOrDefault(end, 0) - 1);
+        int activeBookings = 0;
+
+        for(int count : timeline.values()){
+            activeBookings += count;
+            if(activeBookings > 2){
+                timeline.put(start, timeline.get(start) - 1);
+                timeline.put(end, timeline.get(end) + 1);
+                return false;
+            }
+        }
+        return true;
+    }
+    private Map<Integer, Integer> timeline = new TreeMap<>();
+}
+
