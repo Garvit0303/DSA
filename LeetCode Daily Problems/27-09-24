@@ -1,0 +1,25 @@
+//731. My Calendar II
+
+//Approach 1 : Bruteforce Method
+
+class MyCalendarTwo {
+    private List<int[]> bookings = new ArrayList<>();
+    private List<int[]> doubleBookings = new ArrayList<>();
+    int maxStart = Integer.MIN_VALUE;
+    int minEnd = Integer.MAX_VALUE;
+    public boolean book(int start, int end) {
+        for(int[] doubleBooking : doubleBookings)
+            if(Math.max(doubleBooking[0], start) < Math.min(doubleBooking[1], end))
+                return false;
+        for(int[] booking : bookings) {
+            maxStart = Math.max(booking[0], start);
+            minEnd = Math.min(booking[1], end);
+            if(maxStart < minEnd)
+                doubleBookings.add(new int[] {maxStart, minEnd});
+        }
+        bookings.add(new int[] {start, end});
+        return true;
+    }
+}
+
+--------------------------------------------------------------------------------------------------------
