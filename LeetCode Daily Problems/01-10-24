@@ -1,0 +1,23 @@
+//1497. Check If Array Pairs Are Divisible by k
+
+class Solution {
+    public boolean canArrange(int[] arr, int k) {
+        int[] memo = new int[k];
+        for(int currentIndex : arr){
+            int currentRem = ((currentIndex % k) + k) % k;
+            memo[currentRem] += 1;
+        }
+        
+        for(int i=0; i<=k/2; i++){
+            if(i == 0){
+                if(memo[i]%2 != 0)
+                    return false;
+            } else {
+                int temp = k - i;
+                if(memo[i] != memo[temp])
+                    return false;
+            }
+        }
+        return true;
+    }
+}
