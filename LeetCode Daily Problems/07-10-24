@@ -1,0 +1,27 @@
+//2696. Minimum String Length After Removing Substrings
+
+class Solution {
+    // Method to determine the minimum length of the string 
+    // after performing the given reduction operations.
+    public int minLength(String s) {
+        // Initialize a stack to hold characters.
+        Deque<Character> stack = new ArrayDeque<>();
+        // Add a space as a sentinel to the stack to avoid empty stack checks.
+        stack.push(' ');
+
+        // Iterate over each character in the string.
+        for (char currentChar : s.toCharArray()) {
+            // Check for the conditions to pop the top of the stack.
+            // If the current character is 'B' and the top is 'A', or
+            // if the current character is 'D' and the top is 'C', then pop.
+            if ((currentChar == 'B' && stack.peek() == 'A') || (currentChar == 'D' && stack.peek() == 'C')) {
+                stack.pop();
+            } else {
+                // Push the current character onto the stack if no pair is found.
+                stack.push(currentChar);
+            }
+        }
+        // Return the stack size minus one to exclude the initial sentinel space.
+        return stack.size() - 1;
+    }
+}
