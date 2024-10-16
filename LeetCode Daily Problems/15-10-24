@@ -1,0 +1,16 @@
+//2938. Separate Black and White Balls
+
+class Solution {
+    public long minimumSteps(String s) {
+        int len = s.length();
+        long steps = 0;
+        int last = 0;
+        for(int curr=0; curr<len; curr++){
+            if(s.charAt(curr) == '0'){
+                steps += curr-last;
+                last++;
+            }
+        }
+        return steps;
+    }
+}
