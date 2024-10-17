@@ -1,0 +1,29 @@
+//670. Maximum Swap
+
+class Solution {
+    public int maximumSwap(int num) {
+        char[] numsArr = Integer.toString(num).toCharArray();
+        int length = numsArr.length;
+        char maxVal = numsArr[length-1];
+        int maxIndex = length-1;
+        int swapIdx1 = -1;
+        int swapIdx2 = -1;
+
+        for(int i=length-2; i>=0; i--){
+            if(numsArr[i] > maxVal){
+                maxVal = numsArr[i];
+                maxIndex = i;
+            } else if(numsArr[i] < maxVal) {
+                swapIdx1 = i;
+                swapIdx2 = maxIndex;
+            }
+        }
+        if(swapIdx1 != -1){
+            char temp = numsArr[swapIdx1];
+            numsArr[swapIdx1] = numsArr[swapIdx2];
+            numsArr[swapIdx2] = temp;
+        }
+
+        return Integer.parseInt(new String(numsArr));
+    }
+}
