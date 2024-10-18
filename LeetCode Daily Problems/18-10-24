@@ -1,0 +1,21 @@
+//2044. Count Number of Maximum Bitwise-OR Subsets
+
+class Solution {
+    public int countMaxOrSubsets(int[] nums) {
+        int targetOr = Arrays.stream(nums)
+                           .reduce(0, (a, b) -> a | b);
+        Integer dp[][] = new Integer[nums.length][targetOr+1];
+        return countMax(0, nums, 0, targetOr, dp);
+    }
+    public int countMax(int idx, int[] nums, int currOr, int targetOr, Integer dp[][]){
+        if(idx == nums.length)
+            return (currOr == targetOr)?1:0;
+        
+        if(dp[idx][currOr] != null)
+            return dp[idx][currOr];
+        int pick = countMax(idx+1, nums, currOr | nums[idx], targetOr, dp);
+        int notPick = countMax(idx+1, nums, currOr, targetOr, dp);
+
+        return dp[idx][currOr] = pick + notPick;
+    }
+}
