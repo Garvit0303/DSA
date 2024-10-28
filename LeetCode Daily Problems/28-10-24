@@ -1,0 +1,38 @@
+//2501. Longest Square Streak in an Array
+
+public class Solution {
+    public int longestSquareStreak(int[] nums) {
+        // Step 1: Sort the array to process in increasing order
+        Arrays.sort(nums);
+
+        // Step 2: Use a HashSet<Long> for fast lookups and to avoid overflow issues
+        Set<Long> set = new HashSet<>();
+        for (int num : nums) {
+            set.add((long) num);  // Store numbers as Longs in the set
+        }
+
+        int maxLength = -1;  // Default value if no valid streak is found
+
+        // Step 3: Iterate over the sorted array to find the longest streak
+        for (int num : nums) {
+            int length = 0;
+            long current = num;
+
+            // Try to build the streak by repeatedly squaring the current value
+            while (set.contains(current)) {
+                length++;  // Increment the streak length
+                current = current * current;  // Get the next perfect square
+
+                // Avoid unnecessary calculations if the square exceeds Integer.MAX_VALUE
+                if (current > Integer.MAX_VALUE) break;
+            }
+
+            // Update the maximum length if a valid streak is found
+            if (length > 1) {  // A valid streak must have more than one element
+                maxLength = Math.max(maxLength, length);
+            }
+        }
+
+        return maxLength;
+    }
+}
