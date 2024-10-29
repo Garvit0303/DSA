@@ -1,0 +1,32 @@
+//2684. Maximum Number of Moves in a Grid
+
+public class Solution {
+    public int maxMoves(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] dp = new int[m][n]; // dp[i][j] stores the max moves from (i, j)
+        int maxMoves = 0;
+
+        // Fill the dp table column by column from right to left
+        for (int j = n - 2; j >= 0; j--) {
+            for (int i = 0; i < m; i++) {
+                // Check all three possible moves (top-right, right, bottom-right)
+                if (i > 0 && grid[i][j] < grid[i - 1][j + 1]) {
+                    dp[i][j] = Math.max(dp[i][j], 1 + dp[i - 1][j + 1]);
+                }
+                if (grid[i][j] < grid[i][j + 1]) {
+                    dp[i][j] = Math.max(dp[i][j], 1 + dp[i][j + 1]);
+                }
+                if (i < m - 1 && grid[i][j] < grid[i + 1][j + 1]) {
+                    dp[i][j] = Math.max(dp[i][j], 1 + dp[i + 1][j + 1]);
+                }
+            }
+        }
+
+        // Find the maximum moves starting from any cell in the first column
+        for (int i = 0; i < m; i++) {
+            maxMoves = Math.max(maxMoves, dp[i][0]);
+        }
+
+        return maxMoves;
+    }
+}
